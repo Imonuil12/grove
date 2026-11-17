@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta charset="UTF-8">
+  <title>Login - Grove</title>
+  <link rel="stylesheet" href="style.css?v=grove-1">
+  <!-- AWS Cognito SDK -->
+  <script src="https://unpkg.com/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+</head>
+<body class="auth-body">
+
+<div class="auth-card">
+  <button class="btn-back" onclick="window.location.href='index.html'">← Back to app</button>
+  <h2>Login</h2>
+  <input id="email" placeholder="Email" type="email">
+  <input id="password" type="password" placeholder="Password">
+  <button class="btn-primary" onclick="login()">Log in</button>
+  
+  <div style="margin: 16px 0; border-top: 1px solid #e2e8f0; position: relative;">
+    <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: white; padding: 0 8px; color: #94a3b8; font-size: 12px;">OR</span>
+  </div>
+
+  <button id="guestLoginButton" class="btn-secondary" style="width: 100%; padding: 10px; background: #ffffff; color: #16271e; border: 1px solid #cbd5e1; border-radius: 8px; cursor: pointer; font-weight: bold;" onclick="startGuest()">
+    Try without an account
+  </button>
+  <p style="margin-top: 8px; font-size: 12px; color: #64748b;">Explore lessons and quizzes as a guest. Guest progress is temporary and is not saved to an account.</p>
+
+  <p style="margin-top: 16px;">Don't have an account? <a href="signup.html">Signup</a></p>
+</div>
+
+<script type="module">
+import { authConfig } from "./auth/authConfig.js";
+import { signIn } from "./auth/authService.js";
+import { startGuestSession } from "./auth/guestSession.js";
+
+window.login = async function () {
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  if (!email || !password) {
+    alert("Please enter your email and password.");
+    return;
+  }
+  try {
+    await signIn(email, password);
+    window.location.href = "path.html";
+  } catch (err) {
+    alert(err.message || "Login failed. Please check your credentials.");
+  }
+};
+
+document.getElementById("password").addEventListener("keydown", (e) => {
+  if (e.key === "Enter") window.login();
+});
+
+window.startGuest = async function () {
+  const button = document.getElementById("guestLoginButton");
+  button.disabled = true;
+  try {
+    await startGuestSession(authConfig.API_BASE_URL);
+  } catch (error) {
+    alert(error.message);
+  } finally {
+    button.disabled = false;
+  }
+};
+</script>
+
+</body>
+</html>

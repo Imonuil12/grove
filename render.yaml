@@ -1,0 +1,29 @@
+# Render Blueprint: one web service serves both the website and the API.
+# Database: a free Neon Postgres URL pasted into DATABASE_URL (see README "Deploy").
+services:
+  - type: web
+    name: grove
+    runtime: python
+    plan: free
+    buildCommand: pip install -r app/backend/requirements.txt
+    startCommand: >-
+      python app/backend/manage_db.py upgrade &&
+      cd app/backend &&
+      uvicorn main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SESSION_ENCRYPTION_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        sync: false
+      # Optional AI provider (free options in .env.example). Without one, the
+      # coach uses built-in offline answers.
+      - key: GEMINI_API_KEY
+        sync: false

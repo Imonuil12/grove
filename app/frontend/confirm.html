@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta charset="UTF-8">
+  <title>Confirm Account - Grove</title>
+  <link rel="stylesheet" href="style.css?v=grove-1">
+  <!-- AWS Cognito SDK -->
+  <script src="https://unpkg.com/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+</head>
+
+<body class="auth-body">
+
+<div class="auth-card">
+  <h2>Verify Your Email</h2>
+  <p style="color:#6b7280; font-size:14px; margin-top:0;">Enter the verification code sent to your email.</p>
+  <input id="email" placeholder="Email" type="email">
+  <input id="code" placeholder="Verification Code" type="text">
+  <button class="btn-primary" onclick="confirmAccount()">Confirm</button>
+  <p style="margin-top:12px;"><a href="login.html" style="color:#3f9566; font-size:14px;">Back to Login</a></p>
+</div>
+
+<script type="module">
+import { confirmSignup } from "./auth/authService.js";
+
+// Auto-fill email if redirected from signup
+const pending = sessionStorage.getItem("pendingEmail");
+if (pending) document.getElementById("email").value = pending;
+
+window.confirmAccount = async function () {
+  const email = document.getElementById("email").value.trim();
+  const code = document.getElementById("code").value.trim();
+
+  if (!email || !code) {
+    alert("Please enter your email and the code.");
+    return;
+  }
+
+  try {
+    await confirmSignup(email, code);
+    sessionStorage.removeItem("pendingEmail");
+    alert("Account confirmed! You can now log in.");
+    window.location.href = "login.html";
+  } catch (err) {
+    alert(err.message || "Confirmation failed. Please try again.");
+  }
+};
+</script>
+
+</body>
+</html>

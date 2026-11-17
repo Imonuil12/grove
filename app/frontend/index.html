@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grove — grow every part of yourself</title>
+  <link rel="stylesheet" href="style.css?v=grove-1">
+  <link rel="stylesheet" href="chat.css?v=grove-1">
+  <style>
+    /* ---------- Home  ---------- */
+    .home-tab { container: home / inline-size; max-width:1680px; margin:0 auto; padding: clamp(8px, 3vw, 40px) 0 104px; }
+
+    /* Hero */
+    .home-hero {
+      display:grid; grid-template-columns:1fr; gap:48px; align-items:center;
+      padding: clamp(8px, 3vw, 40px) 0 clamp(48px, 6vw, 88px);
+    }
+    .home-eyebrow {
+      display:inline-flex; align-items:center; gap:8px; margin-bottom:24px;
+      padding:6px 14px 6px 8px; border:1px solid #dce1da; border-radius:999px;
+      background:rgba(255,255,255,0.75); font-size:13px; font-weight:600; color:#3a4256;
+    }
+    .home-eyebrow-dot {
+      width:20px; height:20px; border-radius:50%; display:grid; place-items:center;
+      background:#e8f4ec; color:#2f855a;
+    }
+    .home-hero h1 {
+      margin:0 0 20px; font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+      font-weight:500; font-size: clamp(38px, 5vw, 64px); line-height:1.07; letter-spacing:-1px; color:#16271e;
+    }
+    .home-sub { margin:0 0 32px; max-width:540px; font-size: clamp(16px, 1.3vw, 18px); line-height:1.6; color:#5a6660; }
+    .home-ctas { display:flex; flex-wrap:wrap; gap:12px; }
+    .home-btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:10px;
+      padding:15px 28px; border-radius:999px; font-family:inherit; font-size:16px; font-weight:600;
+      cursor:pointer; transition: background 0.15s, transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .home-btn.primary { background:#16271e; color:#fff; border:none; box-shadow:0 8px 20px rgba(22,39,30,0.2); }
+    .home-btn.primary:hover { background:#263f31; transform:translateY(-1px); }
+    .home-btn.secondary { background:transparent; color:#16271e; border:1px solid #c9cdd8; }
+    .home-btn.secondary:hover { background:#fff; border-color:#16271e; }
+
+    /* Hero preview card (decorative example) */
+    .home-hero-visual { position:relative; max-width:500px; width:100%; }
+    .preview-card {
+      background:#fff; border:1px solid #ecefe9; border-radius:24px; padding:22px 24px 10px;
+      box-shadow:0 30px 60px -24px rgba(22,39,30,0.22);
+    }
+    .preview-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+    .preview-head strong { font-size:16px; color:#16271e; }
+    .preview-tag { font-size:12px; font-weight:600; color:#5a6660; background:#f1f3ee; padding:4px 10px; border-radius:999px; }
+    .preview-row { display:flex; align-items:center; gap:14px; padding:14px 0; border-top:1px solid #f0f1f5; }
+    .preview-head + .preview-row { border-top:none; }
+    .preview-text { flex:1; min-width:0; }
+    .preview-text strong { display:block; font-size:14.5px; color:#16271e; }
+    .preview-text span { font-size:12.5px; color:#6b7280; }
+    .preview-bar { width:72px; height:6px; border-radius:999px; background:#eef1ec; overflow:hidden; flex-shrink:0; }
+    .preview-bar i { display:block; height:100%; border-radius:999px; background:linear-gradient(90deg, #2f855a, #6bbf8e); }
+    .preview-chip {
+      position:absolute; left:-28px; bottom:-22px; display:flex; align-items:center; gap:10px;
+      padding:12px 16px; background:#fff; border-radius:14px; font-size:13.5px; font-weight:600; color:#16271e;
+      box-shadow:0 14px 30px -10px rgba(22,39,30,0.25);
+    }
+    .preview-chip-check { width:24px; height:24px; border-radius:50%; display:grid; place-items:center; background:#10b981; color:#fff; }
+
+    /* Shared tinted icon circles */
+    .tint { width:44px; height:44px; border-radius:50%; display:grid; place-items:center; flex-shrink:0; }
+    .tint svg { width:20px; height:20px; }
+    .t-peach { background:#fdeee6; color:#c2410c; }
+    .t-lav { background:#e8f4ec; color:#2f855a; }
+    .t-mint { background:#e3f6ee; color:#047857; }
+    .t-sky { background:#e8f2ea; color:#1d4ed8; }
+
+    /* Feature cards */
+    .home-section-title {
+      margin:0 0 24px; font-family:"Source Serif 4", Georgia, "Times New Roman", serif;
+      font-weight:500; font-size: clamp(26px, 2.6vw, 36px); letter-spacing:-0.4px; color:#16271e;
+    }
+    .home-grid { display:grid; grid-template-columns:1fr; gap:16px; }
+    .home-card {
+      display:flex; flex-direction:column; padding:26px; text-align:left; cursor:pointer;
+      background:#fff; border:1px solid #ecefe9; border-radius:20px; box-shadow:0 1px 2px rgba(22,39,30,0.04);
+      transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    }
+    .home-card:hover { transform:translateY(-3px); border-color:#dfe2ea; box-shadow:0 16px 32px -12px rgba(22,39,30,0.16); }
+    .home-card h3 { margin:18px 0 8px; font-size:17px; color:#16271e; }
+    .home-card p { flex:1; margin:0 0 20px; font-size:14.5px; line-height:1.6; color:#5a6660; }
+    .home-card-link { display:inline-flex; align-items:center; gap:6px; font-size:14px; font-weight:600; color:#16271e; }
+    .home-card-link svg { transition: transform 0.15s; }
+    .home-card:hover .home-card-link svg { transform:translateX(3px); }
+
+    /* About banner (dark) */
+    .home-card-wide {
+      grid-column:1 / -1; flex-direction:row; align-items:center; gap:20px;
+      background:#16271e; border-color:#16271e; color:#fff;
+    }
+    .home-card-wide .tint { background:rgba(255,255,255,0.12); color:#fff; }
+    .home-card-wide h3 { margin:0 0 6px; color:#fff; font-family:"Source Serif 4", Georgia, serif; font-weight:500; font-size:22px; }
+    .home-card-wide p { margin:0; color:rgba(255,255,255,0.75); }
+    .home-card-wide .home-card-link { color:#fff; white-space:nowrap; }
+    .home-card-wide > div:nth-child(2) { flex:1; }
+
+    .home-note { margin-top:32px; text-align:center; font-size:12.5px; color:#9ca3af; line-height:1.5; }
+
+    /* Layout follows the space available (container queries) */
+    @container home (min-width: 600px) {
+      .home-grid { grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; }
+    }
+    @container home (min-width: 900px) {
+      .home-hero { grid-template-columns:minmax(0, 1.15fr) minmax(0, 0.85fr); gap:clamp(40px, 5vw, 80px); }
+      .home-hero-visual { justify-self:end; }
+    }
+    @container home (min-width: 1100px) {
+      .home-grid { grid-template-columns:repeat(4, minmax(0, 1fr)); }
+    }
+    @container home (max-width: 599px) {
+      .home-btn { width:100%; }
+      .preview-chip { position:static; margin-top:12px; width:fit-content; }
+      .home-card-wide { flex-direction:column; align-items:flex-start; }
+    }
+
+    /* ---------- Sidebar ---------- */
+    .sidebar {
+      background: linear-gradient(180deg, #16271e 0%, #14211a 100%);
+      border-right: 1px solid rgba(255,255,255,0.06);
+      width:276px; padding: 30px 18px 24px; gap: 32px;
+    }
+    .sidebar-spacer { flex:1 1 auto; min-height:8px; }
+    .sidebar .logo { display:flex; flex-direction:column; align-items:flex-start; gap:8px; margin:0 6px; }
+    .logo-name { display:flex; align-items:center; gap:10px; font-family:"Source Serif 4", Georgia, serif; font-size:24px; font-weight:600; letter-spacing:-0.3px; color:#fff; }
+    .logo-name .brand-mark { width:34px; height:34px; border-radius:10px; box-shadow:0 0 0 1px rgba(255,255,255,0.14); }
+
+    .sidebar-cta {
+      width:100%; margin:0; display:flex; align-items:center; justify-content:center; gap:8px;
+      padding:14px 16px; border-radius:14px; font-family:inherit; font-size:15px; font-weight:600; cursor:pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .sidebar-cta.primary {
+      justify-content:space-between; padding:16px 18px; border:none;
+      background:#fff; color:#16271e; box-shadow:0 8px 20px rgba(0,0,0,0.28);
+    }
+    .sidebar-cta.primary:hover { background:#edf6f0; transform:translateY(-1px); }
+    .sidebar-cta.primary span { text-align:left; }
+    .sidebar-cta.primary svg { transition: transform 0.15s; }
+    .sidebar-cta.primary:hover svg { transform:translateX(3px); }
+    .sidebar-cta.secondary {
+      padding:9px 14px; font-size:13px; font-weight:500;
+      background:transparent; color:#a7b0c2; border:1px solid rgba(255,255,255,0.12);
+    }
+    .sidebar-cta.secondary:hover { color:#fff; border-color:rgba(255,255,255,0.25); background:rgba(255,255,255,0.04); }
+
+    /* Nav */
+    .sidebar .nav { gap:8px; margin:0; }
+    .nav-label, .sidebar-settings label {
+      display:block; margin:0 14px 10px; font-size:11.5px; font-weight:700;
+      letter-spacing:0.08em; text-transform:uppercase; color:#64748b;
+    }
+    .sidebar .nav-menu-item {
+      gap:14px; padding:14px 16px; border-left:none; border-radius:12px;
+      font-size:16px; font-weight:500; color:#a7b0c2;
+    }
+    .sidebar .nav-menu-item svg { width:20px; height:20px; flex-shrink:0; opacity:0.85; }
+    .sidebar .nav-menu-item:hover { background:rgba(255,255,255,0.05); color:#fff; }
+    .sidebar .nav-menu-item.active {
+      background:rgba(255,255,255,0.09); color:#fff; font-weight:600;
+      border-left:none; border-radius:10px; box-shadow: inset 3px 0 0 #6bbf8e;
+    }
+    .sidebar .nav-menu-item.active svg { color:#8fd1a8; opacity:1; }
+
+    .classic-mode { margin-top:10px; }
+    .classic-mode summary {
+      display:flex; align-items:center; justify-content:space-between; padding:12px 16px;
+      list-style:none; cursor:pointer; user-select:none; border-radius:10px;
+      font-size:12.5px; font-weight:600; color:#64748b;
+      transition: background 0.15s, color 0.15s;
+    }
+    .classic-mode summary::-webkit-details-marker { display:none; }
+    .classic-mode summary:hover { color:#cbd5e1; background:rgba(255,255,255,0.04); }
+    .classic-mode summary .chev { font-size:10px; transition: transform 0.2s ease; }
+    .classic-mode[open] summary .chev { transform:rotate(90deg); }
+    .sidebar .classic-mode .nav-menu-item { padding:10px 16px 10px 50px; font-size:14.5px; }
+
+    /* Focused drug */
+    .sidebar-settings { margin:0; padding-top:18px; border-top:1px solid rgba(255,255,255,0.08); }
+    .sidebar select.settings-select {
+      appearance:none; -webkit-appearance:none; margin:0; cursor:pointer;
+      padding:13px 40px 13px 16px; font-size:15px; font-weight:500; color:#fff;
+      background: rgba(255,255,255,0.06) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a7b0c2' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center / 14px;
+      border:1px solid rgba(255,255,255,0.12); border-radius:10px;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .sidebar select.settings-select:hover { border-color:rgba(255,255,255,0.24); }
+    .sidebar select.settings-select:focus { border-color:#6bbf8e; box-shadow:0 0 0 3px rgba(107,191,142,0.25); }
+    .sidebar select option { color:#14211a; background:#fff; }
+
+    /* ---------- Top header bar (Ada-style) ---------- */
+    .content { --pad-y:40px; --pad-x:40px; padding: var(--pad-y) var(--pad-x); }
+
+    .topbar {
+      position:sticky; top:0; z-index:950;
+      display:flex; align-items:center; gap:20px;
+      margin: calc(-1 * var(--pad-y)) calc(-1 * var(--pad-x)) 8px;
+      padding: 16px var(--pad-x);
+      background: rgba(251,252,249,0.8);
+      backdrop-filter: blur(12px) saturate(140%); -webkit-backdrop-filter: blur(12px) saturate(140%);
+      border-bottom: 1px solid rgba(22,39,30,0.07);
+    }
+    .topbar-title { display:flex; flex-direction:column; margin-right:auto; min-width:0; }
+    .topbar-eyebrow { font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#87918b; }
+    #topbarPage { font-size:17px; font-weight:600; color:#16271e; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+    .topbar-links { display:flex; align-items:center; gap:4px; }
+    .topbar-pill, .topbar-link {
+      padding:9px 18px; border-radius:999px; font-size:15px; font-weight:500;
+      color:#1f3529; text-decoration:none; white-space:nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .topbar-pill { margin-right:8px; border:1.5px solid #16271e; }
+    .topbar-pill:hover { background:#16271e; color:#fff; }
+    .topbar-link:hover { background:rgba(22,39,30,0.06); }
+
+    /* Profile button + dropdown */
+    .profile-menu { position:relative; margin-left:8px; }
+    .profile-btn {
+      list-style:none; display:flex; align-items:center; gap:10px; cursor:pointer; user-select:none;
+      padding:5px 14px 5px 5px; border:1px solid #dce1da; border-radius:999px; background:#fff;
+      font-size:14px; font-weight:600; color:#16271e;
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .profile-btn::-webkit-details-marker { display:none; }
+    .profile-btn:hover, .profile-menu[open] .profile-btn { border-color:#16271e; box-shadow:0 2px 8px rgba(22,39,30,0.08); }
+    .profile-avatar {
+      width:32px; height:32px; border-radius:50%; flex-shrink:0; display:grid; place-items:center;
+      background: linear-gradient(135deg, #2f855a, #6bbf8e); color:#fff; font-size:12.5px; font-weight:700;
+    }
+    .profile-avatar svg { width:16px; height:16px; }
+    .profile-name { max-width:160px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .profile-chev { color:#6b7280; transition: transform 0.2s; }
+    .profile-menu[open] .profile-chev { transform:rotate(180deg); }
+
+    .profile-panel {
+      position:absolute; right:0; top:calc(100% + 10px); z-index:1100;
+      width:min(300px, calc(100vw - 32px)); padding:16px;
+      background:#fff; border:1px solid #e5e9e3; border-radius:16px;
+      box-shadow:0 24px 48px -16px rgba(22,39,30,0.28);
+    }
+    .profile-panel-head { margin-bottom:10px; font-size:11px; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#87918b; }
+
+    /* Account content (filled in by renderAuthSection in script.js) */
+    .auth-section { font-size:13.5px; line-height:1.5; color:#374151; }
+    .auth-section:empty { display:none; }
+    .auth-section strong { color:#16271e; font-size:14px; }
+    .auth-section p { margin:6px 0 0; font-size:13px; color:#6b7280 !important; }
+    .auth-section .nav-btn {
+      display:flex; justify-content:center; width:100%; margin:0 0 8px; padding:11px 14px;
+      border:none; border-radius:999px; font-family:inherit; font-size:14px; font-weight:600;
+      background:#16271e; color:#fff; cursor:pointer;
+    }
+    .auth-section .nav-btn:hover { background:#263f31; }
+    .auth-section .nav-btn + .nav-btn { background:#fff; color:#16271e; border:1px solid #ced5cc; }
+    .auth-section .nav-btn + .nav-btn:hover { border-color:#16271e; background:#fff; }
+    .auth-section strong + p + .nav-btn { margin:12px 0 0; }
+
+    .profile-logout {
+      display:flex; align-items:center; gap:10px; width:100%; margin:12px 0 0; padding:12px 6px 4px;
+      background:transparent; color:#374151; border:none; border-top:1px solid #eef1ec; border-radius:0;
+      font-family:inherit; font-size:14px; font-weight:500; cursor:pointer;
+    }
+    .profile-logout:hover { background:transparent; color:#16271e; }
+    /* Nobody signed in yet: no "Log out" */
+    .profile-menu:has(#authSection [onclick*="startGuest"]) .profile-logout { display:none; }
+
+    .sidebar-note { margin:14px 6px 0; font-size:12px; line-height:1.5; color:#64748b; }
+
+    /* ---------- Responsive ---------- */
+
+    /* Menu button: only shown when the sidebar collapses into a top bar */
+    .mobile-menu-btn {
+      display:none; background:transparent; border:1px solid rgba(255,255,255,0.25);
+      color:white; padding:8px; border-radius:10px; width:40px; height:40px;
+      align-items:center; justify-content:center; flex-shrink:0;
+    }
+    .mobile-menu-btn:hover { background:rgba(255,255,255,0.08); }
+    .mobile-menu-btn .icon-close { display:none; }
+    .sidebar.open .mobile-menu-btn .icon-open { display:none; }
+    .sidebar.open .mobile-menu-btn .icon-close { display:block; }
+
+    /* Phones and tablets in portrait: sidebar becomes a top bar with a dropdown menu */
+    @media (max-width:860px) {
+      .app { flex-direction:column; align-items:stretch; }
+
+      .sidebar {
+        width:100%; height:auto; position:sticky; top:0; z-index:900;
+        flex-direction:row; flex-wrap:wrap; align-items:center;
+        padding:12px 16px; gap:0; max-height:100vh; border-right:none;
+      }
+      .sidebar .logo { flex:1; gap:4px; margin:0; }
+      .logo-name { font-size:19px; }
+      .logo-name .brand-mark { width:28px; height:28px; }
+      .mobile-menu-btn { display:flex; }
+
+      /* Everything except the logo row is hidden until the menu is opened */
+      .sidebar > :not(.logo):not(.mobile-menu-btn) { display:none; flex-basis:100%; }
+      .sidebar.open > .sidebar-actions,
+      .sidebar.open > .sidebar-settings { display:block; margin-top:16px; }
+      .sidebar.open > .nav { display:flex; margin-top:16px; }
+      .sidebar.open { overflow-y:auto; padding-bottom:18px; }
+
+      .content { --pad-y:16px; --pad-x:16px; padding:var(--pad-y) var(--pad-x) 100px; min-height:auto; }
+      .topbar { position:static; padding:12px var(--pad-x); margin-bottom:12px; }
+      .topbar-links { display:none; }
+      .topbar-eyebrow { display:none; }
+
+    }
+
+    /* Mid-size: narrower sidebar so content has room */
+    @media (min-width:861px) and (max-width:1023px) {
+      .sidebar { width:236px; padding:24px 14px; gap:24px; }
+      .sidebar .nav-menu-item { padding:12px 12px; font-size:15px; }
+      .content { --pad-y:28px; --pad-x:24px; }
+      .topbar-link { display:none; }
+    }
+
+    /* Large monitors */
+    @media (min-width:1440px) {
+      .sidebar { width:292px; padding:32px 20px 24px; }
+      .content { --pad-y:32px; --pad-x:40px; }
+    }
+
+    /* Extra-wide monitors */
+    @media (min-width:1920px) {
+      .sidebar { width:312px; }
+      .content { --pad-y:36px; --pad-x:48px; }
+    }
+  </style>
+</head>
+<body data-path-view="hub">
+
+
+
+<div class="app">
+
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="logo-name"><img class="brand-mark" src="assets/grove-mark.svg" alt="" width="36" height="36">Grove</span>
+    </div>
+    <button class="mobile-menu-btn" type="button" aria-label="Open menu" aria-expanded="false" onclick="toggleSidebarMenu()">
+      <svg class="icon-open" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="20" y2="18"></line></svg>
+      <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    <div class="sidebar-actions">
+      <button class="sidebar-cta primary" onclick="resumeLearning()">
+        <span>Continue where you left off</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+      </button>
+    </div>
+
+    <nav class="nav" aria-label="Main">
+      <span class="nav-label">Menu</span>
+      <button id="navHomeBtn" class="nav-menu-item active" onclick="showTab('home', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path><path d="M10 21v-6h4v6"></path></svg>
+        Home
+      </button>
+      <button id="navIntakeBtn" class="nav-menu-item" onclick="showTab('intake', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"></rect><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"></path><path d="M9 12l2 2 4-4"></path></svg>
+        User Intake Form
+      </button>
+      <button id="navPathBtn" class="nav-menu-item" onclick="showTab('path', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.2 7.6C11 10 13 14 15.8 16.4"></path></svg>
+        Learning Path
+      </button>
+      <button id="navProgressBtn" class="nav-menu-item" onclick="showTab('progress', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 16l4-6 3 4 5-8"></path></svg>
+        Progress
+      </button>
+      <button class="nav-menu-item" onclick="window.location.href='chatbot.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        Coach
+      </button>
+      <button id="navAboutBtn" class="nav-menu-item" onclick="showTab('about', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-5"></path><circle cx="12" cy="8" r="0.5" fill="currentColor"></circle></svg>
+        About
+      </button>
+
+      <details class="classic-mode">
+        <summary>Classic mode <span class="chev">▸</span></summary>
+        <button class="nav-menu-item" onclick="showTab('quiz', this)">Initial Quiz</button>
+        <button class="nav-menu-item" onclick="showTab('plan', this)">Learning Plan</button>
+        <button class="nav-menu-item" onclick="showTab('lessons', this)">Lessons</button>
+        <button class="nav-menu-item" onclick="showTab('checkpoint', this)">Checkpoint</button>
+      </details>
+    </nav>
+
+    <div class="sidebar-spacer"></div>
+
+    <div class="sidebar-settings">
+      <label for="drugSelect">Focused drug</label>
+      <select id="drugSelect" class="settings-select">
+        <option value="amoxicillin">Amoxicillin</option>
+        <option value="ibuprofen">Ibuprofen</option>
+      </select>
+      <p class="sidebar-note">Educational tool only. It doesn't replace advice from your care team.</p>
+    </div>
+
+  </aside>
+
+
+
+<main class="content">
+
+  <header class="topbar">
+    <div class="topbar-title">
+      <span class="topbar-eyebrow">Grove</span>
+      <span id="topbarPage">Home</span>
+    </div>
+    <nav class="topbar-links" aria-label="Quick links">
+      <a class="topbar-pill" href="#path">Learning path</a>
+      <a class="topbar-link" href="chatbot.html">Coach</a>
+      <a class="topbar-link" href="#about">About</a>
+    </nav>
+    <details class="profile-menu" id="profileMenu">
+      <summary class="profile-btn" aria-label="Account menu">
+        <span class="profile-avatar" id="profileAvatar"></span>
+        <span class="profile-name" id="profileName">Sign in</span>
+        <svg class="profile-chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"></path></svg>
+      </summary>
+      <div class="profile-panel">
+        <div class="profile-panel-head">Account</div>
+        <div id="authSection" class="auth-section"></div>
+        <button class="profile-logout" type="button" onclick="logout()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><path d="M16 17l5-5-5-5"></path><path d="M21 12H9"></path></svg>
+          Log out
+        </button>
+      </div>
+    </details>
+  </header>
+
+
+
+<div id="home" class="tab home-tab">
+  <section class="home-hero">
+    <div class="home-hero-text">
+      <span class="home-eyebrow">
+        <span class="home-eyebrow-dot" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 20h10"></path><path d="M12 20v-8"></path><path d="M12 12c0-3.5-2.5-6-6.5-6 0 3.5 2.5 6 6.5 6z"></path><path d="M12 12c0-3.5 2.5-6 6.5-6 0 3.5-2.5 6-6.5 6z"></path></svg>
+        </span>
+        Grove
+      </span>
+      <h1>Grow every part of yourself.</h1>
+      <p class="home-sub">Mind, body, craft and spirit, all in one place. Learn what actually works, practice it daily, measure how far you have come, and share the wins along the way.</p>
+      <div class="home-ctas">
+        <button class="home-btn primary" onclick="showTab('intake', document.getElementById('navIntakeBtn'))">
+          Set up your profile
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+        </button>
+        <button class="home-btn secondary" onclick="showTab('path', document.getElementById('navPathBtn'))">Explore the learning path</button>
+      </div>
+    </div>
+
+    <div class="home-hero-visual" aria-hidden="true">
+      <div class="preview-card">
+        <div class="preview-head">
+          <strong>Your grove</strong>
+          <span class="preview-tag">Example</span>
+        </div>
+        <div class="preview-row">
+          <span class="tint t-lav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg></span>
+          <div class="preview-text"><strong>Mind</strong><span>Focus, memory, learning</span></div>
+          <div class="preview-bar"><i style="width:100%"></i></div>
+        </div>
+        <div class="preview-row">
+          <span class="tint t-peach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 6.5v11"></path><path d="M17.5 6.5v11"></path><path d="M3 9.5v5"></path><path d="M21 9.5v5"></path><path d="M6.5 12h11"></path></svg></span>
+          <div class="preview-text"><strong>Body</strong><span>Strength, endurance, recovery</span></div>
+          <div class="preview-bar"><i style="width:60%"></i></div>
+        </div>
+        <div class="preview-row">
+          <span class="tint t-mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14.5 4.5 5 5"></path><path d="M19.5 9.5 10 19a2.8 2.8 0 0 1-4 0l-1-1a2.8 2.8 0 0 1 0-4l9.5-9.5"></path><path d="M5 18c-1 1-2 1.5-3 1.5.5-1 .5-2 1.5-3"></path></svg></span>
+          <div class="preview-text"><strong>Craft</strong><span>Creating and making</span></div>
+          <div class="preview-bar"><i style="width:20%"></i></div>
+        </div>
+        <div class="preview-row">
+          <span class="tint t-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.9 4.9 1.4 1.4"></path><path d="m17.7 17.7 1.4 1.4"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m4.9 19.1 1.4-1.4"></path><path d="m17.7 6.3 1.4-1.4"></path></svg></span>
+          <div class="preview-text"><strong>Spirit</strong><span>Reflection and meaning</span></div>
+          <div class="preview-bar"><i style="width:35%"></i></div>
+        </div>
+      </div>
+      <div class="preview-chip">
+        <span class="preview-chip-check"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>
+        A coach that adapts to you
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2 class="home-section-title">Learn it, practice it, see it grow</h2>
+    <div class="home-grid">
+      <div class="home-card" onclick="showTab('intake', document.getElementById('navIntakeBtn'))">
+        <span class="tint t-lav" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"></rect><path d="M9 4H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-3"></path><path d="M9 12l2 2 4-4"></path></svg>
+        </span>
+        <h3>Your Profile</h3>
+        <p>Tell Grove where you are starting from so lessons and coaching fit you.</p>
+        <span class="home-card-link">Set up profile <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+      </div>
+
+      <div class="home-card" onclick="showTab('path', document.getElementById('navPathBtn'))">
+        <span class="tint t-peach" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2.5"></circle><circle cx="18" cy="18" r="2.5"></circle><path d="M8.2 7.6C11 10 13 14 15.8 16.4"></path></svg>
+        </span>
+        <h3>Learning Path</h3>
+        <p>Short adaptive lessons that find what you already know and fill the gaps.</p>
+        <span class="home-card-link">Start learning <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+      </div>
+
+      <div class="home-card" onclick="window.location.href='chatbot.html'">
+        <span class="tint t-mint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        </span>
+        <h3>Your Coach</h3>
+        <p>Ask anything, get a next step, and talk through what is and isn't working.</p>
+        <span class="home-card-link">Talk to your coach <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+      </div>
+
+      <div class="home-card" onclick="showTab('progress', document.getElementById('navProgressBtn'))">
+        <span class="tint t-sky" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M7 16l4-6 3 4 5-8"></path></svg>
+        </span>
+        <h3>Your Progress</h3>
+        <p>Watch your progress add up, lesson by lesson and streak by streak.</p>
+        <span class="home-card-link">View progress <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+      </div>
+
+      <div class="home-card home-card-wide" onclick="showTab('about', document.getElementById('navAboutBtn'))">
+        <span class="tint" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><path d="M12 16v-5"></path><circle cx="12" cy="8" r="0.5" fill="currentColor"></circle></svg>
+        </span>
+        <div>
+          <h3>About</h3>
+          <p>Why Grove exists and how it works.</p>
+        </div>
+        <span class="home-card-link">Read more <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="home-note">
+    <p>Grove is for education and self-development. It does not replace advice from a doctor, coach or other qualified professional.</p>
+  </div>
+</div>
+
+<div id="intake" class="tab">
+  <h1>User Intake Form</h1>
+  <div id="intakeContent"></div>
+</div>
+
+<div id="quiz" class="tab">
+  <h1>Initial Quiz</h1>
+  <p class="tab-lead">A quick check of what you already know about the focused drug. Answer each question in your own words, then score it — your results appear on the Progress page.</p>
+  <div id="quizContent"></div>
+  <button onclick="submitInitialQuiz()">Score Initial Quiz</button>
+  <div id="quizResults"></div>
+</div>
+
+<div id="plan" class="tab">
+  <h1>Learning Plan</h1>
+  <div id="planContent"></div>
+</div>
+
+<div id="lessons" class="tab">
+  <h1>Lessons</h1>
+  <div id="lessonsContent"></div>
+</div>
+
+<div id="checkpoint" class="tab">
+  <h1>Checkpoint</h1>
+  <div id="checkpointContent"></div>
+  <button onclick="submitCheckpoint()">Submit Checkpoint</button>
+  <div id="checkpointResults"></div>
+</div>
+
+    <div id="progress" class="tab">
+      <h1>Progress</h1>
+      <div id="progressContent"></div>
+    </div>
+    <div id="path" class="tab">
+      <div class="path-head">
+        <div>
+          <h1>Learning path</h1>
+          <p>Choose a topic to learn what affects your health and find a practical next step.</p>
+        </div>
+      </div>
+
+      <div id="lessonCategories" class="learn-categories" aria-label="Lesson categories" role="region"></div>
+      <p id="lessonCategoriesStatus" class="empty-state" role="status" hidden></p>
+
+      <section class="learn-framework" aria-labelledby="learnFrameworkTitle">
+        <h2 id="learnFrameworkTitle">From awareness to action</h2>
+        <ol>
+          <li><strong>Understand</strong><span>Learn what the condition is, why it matters, and what can raise or lower risk.</span></li>
+          <li><strong>Prevent</strong><span>Find a way to lower risk and learn when early checks can help.</span></li>
+          <li><strong>Act &amp; reflect</strong><span>Choose one change that fits your routine, notice what went well, and adjust as needed.</span></li>
+        </ol>
+      </section>
+    </div>
+
+    <div id="drugs" class="tab">
+      <div class="path-layout">
+        <section>
+          <a class="learn-back" href="#path">← All lesson categories</a>
+          <div class="path-head">
+            <div>
+              <h1>Drug lessons</h1>
+              <p>Choose how you'd like to learn. Each style opens in its own page.</p>
+            </div>
+          </div>
+          <div id="reviewBanner"></div>
+          <div id="pathMap" class="path-map">
+            <div class="empty-state">Loading…</div>
+          </div>
+        </section>
+
+        <aside class="path-side">
+          <div class="side-card">
+            <h3>Overall mastery</h3>
+            <p id="overallCrowns">0 of 20 crowns</p>
+            <div class="side-progress">
+              <div class="side-track"><div class="side-fill" id="overallFill"></div></div>
+              <span id="overallLabel">0% mastered</span>
+            </div>
+            <div class="side-row">
+              <div class="side-mini"><strong><span id="sideLevels">0/20</span></strong><span>levels done</span></div>
+              <div class="side-mini"><strong><span id="sideUnits">0/4</span></strong><span>skills complete</span></div>
+            </div>
+          </div>
+          <div class="side-card">
+            <h3>Not sure where to start?</h3>
+            <p>Take the initial quiz to see what you already know about this drug.</p>
+            <button type="button" class="side-link" onclick="openInitialQuiz()">Take the initial quiz →</button>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <div id="topic-modes" class="tab">
+      <a class="learn-back" href="#path">← All lesson categories</a>
+      <div class="path-head">
+        <div>
+          <h1 id="topicModeTitle">Lesson modes</h1>
+          <p>Choose how you’d like to explore the topics and core skills.</p>
+        </div>
+      </div>
+      <div id="topicModeChoices"></div>
+    </div>
+
+    <div id="about" class="tab">
+      <div class="about-body">
+    <div class="about-hero">
+      <img class="about-logo" src="assets/grove-logo.svg" alt="Grove" width="220" height="64">
+      <h1>About Grove</h1>
+      <p>Grove is a place to grow every part of yourself: how you think, how you move, what you make, and who you are becoming.</p>
+    </div>
+    <div class="about-row">
+    <div class="about-section">
+      <h2>Why it exists</h2>
+      <p>Most self-improvement tools are either content you read and forget, or checklists with no understanding behind them. Grove joins the two: learn why something works, practice it in small daily steps, and measure the change over time.</p>
+    </div>
+    <div class="about-section">
+      <h2>How it works</h2>
+      <p>A short check-in finds what you already know. An adaptive path fills the gaps, an AI coach adjusts to how you like to learn, and your tree grows a branch for every area you invest in.</p>
+    </div>
+    </div>
+    <div class="about-cta">
+      <p>Grove is for education and self-development. It does not replace advice from a doctor, coach or other qualified professional.</p>
+    </div>
+      </div>
+    </div>
+  </main>
+
+
+</div>
+
+
+
+<script src="script.js?v=topic-lessons-1"></script>
+<script src="chat-core.js?v=lesson-path-2"></script>
+<script src="chat-widget.js?v=topic-lessons-1"></script>
+<script src="ui.js?v=topic-chat-1"></script>
+<script src="learning-catalog.js?v=lesson-path-2"></script>
+<script src="bonsai.js"></script>
+<script src="critter-art.js"></script>
+<script src="critters.js"></script>
+<script>
+  // Collapsible sidebar menu on small screens
+  function toggleSidebarMenu(force) {
+    const sidebar = document.querySelector(".sidebar");
+    const btn = document.querySelector(".mobile-menu-btn");
+    const open = typeof force === "boolean" ? force : !sidebar.classList.contains("open");
+    sidebar.classList.toggle("open", open);
+    btn.setAttribute("aria-expanded", String(open));
+    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+  }
+
+  // Close the menu after picking a tab, and when the screen grows past the breakpoint
+  document.querySelectorAll(".sidebar .nav-menu-item, .home-card, .home-btn").forEach((el) => {
+    el.addEventListener("click", () => toggleSidebarMenu(false));
+  });
+  window.matchMedia("(min-width: 861px)").addEventListener("change", (e) => {
+    if (e.matches) toggleSidebarMenu(false);
+  });
+
+  // Keep exactly one sidebar item highlighted (showTab in script.js only
+  // clears .nav-btn, so the previous .nav-menu-item stayed active)
+  const _showTab = showTab;
+  showTab = function (tab, btn = null) {
+    _showTab(tab, btn);
+    const navTab = tab === "drugs" || tab === "topic-modes" ? "path" : tab;
+    const target = btn && btn.classList && btn.classList.contains("nav-menu-item")
+      ? btn
+      : document.querySelector(`.sidebar .nav-menu-item[onclick*="'${navTab}'"]`);
+    document.querySelectorAll(".sidebar .nav-menu-item.active").forEach((b) => b.classList.remove("active"));
+    if (target) {
+      target.classList.add("active");
+      const group = target.closest("details");
+      if (group) group.open = true;
+    }
+    updateTopbarTitle();
+    onTabShown(tab);
+  };
+
+  // ---------- In-page tabs (Learning Path, About, …) ----------
+  const TAB_IDS = ["home", "intake", "path", "drugs", "progress", "about", "quiz", "plan", "lessons", "checkpoint"];
+  const catalogRequest = loadLearningCatalog().catch(() => null);
+  let topicCategory = "";
+
+  async function renderCategoryCards() {
+    const catalog = await catalogRequest;
+    if (!catalog) {
+      const status = document.getElementById("lessonCategoriesStatus");
+      status.textContent = "Could not load lesson categories. Refresh the page to try again.";
+      status.hidden = false;
+      return;
+    }
+    const styles = {
+      drugs: ["lav", ICONS.pill],
+      conditions: ["peach", ICONS.heartOutline],
+      "risk-factors": ["sky", ICONS.lightbulb],
+      lifestyle: ["lav", EXTRA_ICONS.target],
+      prevention: ["mint", ICONS.check],
+    };
+    document.getElementById("lessonCategories").insertAdjacentHTML("beforeend", Object.entries(catalog).map(([key, entry]) => {
+      const [color, icon] = styles[key] || ["lav", ICONS.book];
+      return `
+        <a class="learn-category learn-category-head${key === "drugs" ? " learn-drugs" : ""}" href="${lessonModesHash(key)}">
+          <span class="tint t-${color}" aria-hidden="true">${icon}</span>
+          <span class="learn-category-label"><strong>${escapeHtml(entry.name)}</strong><span>${escapeHtml(entry.description)}</span></span>
+          <span class="learn-category-arrow" aria-hidden="true">→</span>
+        </a>`;
+    }).join(""));
+  }
+
+  async function refreshTopicHub(category) {
+    const title = document.getElementById("topicModeTitle");
+    const choices = document.getElementById("topicModeChoices");
+    title.textContent = "Lesson modes";
+    choices.textContent = "Loading lesson modes…";
+    const catalog = await catalogRequest;
+    if (category !== topicCategory) return;
+    if (!catalog || !Object.hasOwn(catalog, category) || category === "drugs") {
+      choices.textContent = "This category could not be loaded. Return to all lesson categories and try again.";
+      return;
+    }
+    title.textContent = catalog[category].name;
+    renderModeChoices(choices, {
+      gameHref: lessonPageUrl(category, "game"),
+      focusedHref: lessonPageUrl(category, "focused"),
+      outline: true,
+    });
+  }
+
+  function refreshDrugHub() {
+    renderHub(getSelectedDrug(), null);
+    if (getUsername()) loadPath();
+  }
+
+  function onTabShown(tab) {
+    if (tab === "drugs") refreshDrugHub();
+    if (tab === "topic-modes") refreshTopicHub(topicCategory);
+    // Keep the open tab in the address so refresh / back links land here
+    const hash = tab === "topic-modes" ? "#topics/" + topicCategory : tab === "home" ? "" : "#" + tab;
+    if (location.hash !== hash) history.replaceState(null, "", location.pathname + location.search + hash);
+    window.scrollTo(0, 0);
+  }
+
+  function openTabFromHash(hash = location.hash) {
+    const tab = hash.slice(1);
+    if (tab.startsWith("topics/")) {
+      topicCategory = tab.slice("topics/".length);
+      showTab(topicCategory === "drugs" ? "drugs" : "topic-modes");
+      return;
+    }
+    if (TAB_IDS.includes(tab) && document.getElementById(tab)) showTab(tab);
+  }
+  renderCategoryCards();
+  window.addEventListener("hashchange", () => openTabFromHash());
+  // script.js opens Home at start-up (which clears the #tab from the address),
+  // so remember which tab was asked for and open it right after.
+  const requestedHash = location.hash;
+  document.addEventListener("DOMContentLoaded", () => setTimeout(() => openTabFromHash(requestedHash), 0));
+
+  // Changing the drug refreshes the lesson mode chooser if it's open.
+  document.getElementById("drugSelect")?.addEventListener("change", () => {
+    if (document.getElementById("drugs").style.display === "block") refreshDrugHub();
+  });
+
+  // ---------- Header bar ----------
+  const USER_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path></svg>';
+
+  function updateTopbarTitle() {
+    const el = document.getElementById("topbarPage");
+    const active = document.querySelector(".sidebar .nav-menu-item.active");
+    if (el && active) el.textContent = active.textContent.trim();
+  }
+
+  function updateProfileButton() {
+    const nameEl = document.getElementById("profileName");
+    const avatarEl = document.getElementById("profileAvatar");
+    if (!nameEl || !avatarEl) return;
+    let guest = false, user = null;
+    try {
+      guest = typeof isGuest === "function" && isGuest();
+      user = typeof getUsername === "function" ? getUsername() : null;
+    } catch (e) {}
+    if (guest) {
+      nameEl.textContent = "Guest";
+      avatarEl.textContent = "G";
+    } else if (user) {
+      const handle = String(user).split("@")[0];
+      nameEl.textContent = handle;
+      avatarEl.textContent = handle.slice(0, 2).toUpperCase();
+    } else {
+      nameEl.textContent = "Sign in";
+      avatarEl.innerHTML = USER_ICON;
+    }
+  }
+
+  // Refresh the profile button whenever script.js redraws the account section
+  if (typeof renderAuthSection === "function") {
+    const _renderAuthSection = renderAuthSection;
+    renderAuthSection = function () {
+      _renderAuthSection();
+      updateProfileButton();
+    };
+  }
+
+  // Close the profile menu when clicking anywhere else
+  document.addEventListener("click", (e) => {
+    const menu = document.getElementById("profileMenu");
+    if (menu && menu.open && !menu.contains(e.target)) menu.open = false;
+  });
+
+  updateProfileButton();
+  updateTopbarTitle();
+  document.addEventListener("DOMContentLoaded", () => { updateProfileButton(); updateTopbarTitle(); });
+</script>
+</body>
+</html>
