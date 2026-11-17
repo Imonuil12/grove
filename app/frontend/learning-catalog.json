@@ -1,0 +1,54 @@
+{
+  "drugs": {
+    "name": "Drugs",
+    "description": "Choose a medication and work through its interactive lessons.",
+    "domain": "drug"
+  },
+  "conditions": {
+    "name": "Conditions & diseases",
+    "description": "Explore common conditions, what affects risk, and why early awareness matters.",
+    "domain": "condition",
+    "topics": [
+      { "topic_code": "condition:hypertension", "title": "High blood pressure", "condition": "Hypertension", "playable": true },
+      { "topic_code": "condition:type-2-diabetes", "title": "Type 2 diabetes", "condition": "Type 2 diabetes" },
+      { "topic_code": "condition:heart-attack", "title": "Heart attack", "condition": "Myocardial infarction" }
+    ],
+    "skills": ["Condition basics", "Why it matters", "Risk factors", "Prevention and early signs"]
+  },
+  "risk-factors": {
+    "name": "Risk factors",
+    "description": "See how habits, health measures, family history, and your surroundings affect risk.",
+    "domain": "risk_factor",
+    "topics": [
+      { "topic_code": "risk_factor:tobacco-use", "title": "Tobacco use" },
+      { "topic_code": "risk_factor:high-sodium", "title": "High sodium intake" },
+      { "topic_code": "risk_factor:high-ldl", "title": "High LDL cholesterol" },
+      { "topic_code": "risk_factor:family-history", "title": "Family history" },
+      { "topic_code": "risk_factor:air-pollution", "title": "Air pollution" }
+    ],
+    "skills": ["Recognize the risk factor", "What can and cannot change", "How it affects health", "Protective steps and follow-up"]
+  },
+  "lifestyle": {
+    "name": "Lifestyle",
+    "description": "Explore everyday habits and small changes that fit your routine.",
+    "domain": "mixed",
+    "topics": [
+      { "topic_code": "lifestyle:nutrition", "title": "Nutrition" },
+      { "topic_code": "lifestyle:physical-activity", "title": "Physical activity" },
+      { "topic_code": "lifestyle:sleep", "title": "Sleep" },
+      { "topic_code": "lifestyle:stress-management", "title": "Stress management" }
+    ],
+    "skills": ["Understand the habit", "Practical swaps", "Set a realistic goal", "Review and adjust"]
+  },
+  "prevention": {
+    "name": "Prevention",
+    "description": "Explore ways to lower risk, find problems early, and plan a next step.",
+    "domain": "prevention",
+    "topics": [
+      { "topic_code": "prevention:primary", "title": "Primary prevention" },
+      { "topic_code": "prevention:screening", "title": "Screening and early detection" },
+      { "topic_code": "prevention:infection", "title": "Infection prevention" }
+    ],
+    "skills": ["Prevention basics", "Who it helps", "What the next step involves", "Follow-up and monitoring"]
+  }
+}

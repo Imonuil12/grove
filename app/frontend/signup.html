@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta charset="UTF-8">
+  <title>Signup - Grove</title>
+  <link rel="stylesheet" href="style.css?v=grove-1">
+  <!-- AWS Cognito SDK -->
+  <script src="https://unpkg.com/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+</head>
+
+<body class="auth-body">
+
+<div class="auth-card">
+  <h2>Signup</h2>
+  <input id="email" placeholder="Email" type="email">
+  <input id="password" type="password" placeholder="Password (at least 8 characters)" autocomplete="new-password">
+  <button class="btn-primary" onclick="signup()">Signup</button>
+  <p>Already have an account? <a href="login.html">Login</a></p>
+</div>
+
+<script type="module">
+import { signUp, needsEmailConfirmation } from "./auth/authService.js";
+window.signup = async function () {
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  try {
+    await signUp(email, password);
+    if (!needsEmailConfirmation()) {
+      window.location.href = "path.html";
+      return;
+    }
+    // Store email so confirm.html can pre-fill it
+    sessionStorage.setItem("pendingEmail", email);
+    alert("Account created! Please check your email for a verification code.");
+    window.location.href = "confirm.html";
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
+</script>
+
+</body>
+</html>

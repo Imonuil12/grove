@@ -1,0 +1,56 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Environment Variables
+.env
+
+# Databases
+*.db
+*.db-wal
+*.db-shm
+*.db-journal
+
+# Document / media files (keep in Google Drive, not Git)
+*.pdf
+*.docx
+*.doc
+*.pptx
+*.xlsx
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
+# Old flat-file data stores
+user_profiles.json
+
+# Old prototype scripts at repo root
+amoxicillin_learning_app.py
+
+# Assignments folder
+Assignemnts/
+assignments/
+
+
+# Local Claude Code / agent settings
+.claude/
+
+# Brand assets are source files, not media dumps
+!app/frontend/assets/
+!app/frontend/assets/*.svg

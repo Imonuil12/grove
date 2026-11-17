@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat quiz · Focused - Grove</title>
+  <link rel="stylesheet" href="style.css?v=grove-1">
+  <link rel="stylesheet" href="chat.css?v=grove-1">
+  <!-- Chat quiz is part of Focused mode; keep "Back to lessons" and reviews pointing there -->
+  <script>
+    if (!new URLSearchParams(location.search).has("topic")) {
+      try { localStorage.setItem("learningStyle", "focused"); } catch (e) {}
+    }
+  </script>
+</head>
+<body class="sp-page sp-focused cq-page">
+  <script>
+    if (new URLSearchParams(location.search).has("topic")) {
+      document.body.dataset.lessonSource = "topic";
+      document.body.dataset.topicLessonMode = "focused";
+    }
+  </script>
+
+  <header class="sp-topbar">
+    <a class="sp-brand" href="index.html" aria-label="Grove home">
+      <span class="sp-mark"><img class="brand-mark" src="assets/grove-mark.svg" alt="" width="36" height="36"></span>
+      Grove
+    </a>
+    <span class="sp-section">Chat quiz</span>
+
+    <nav class="sp-nav" aria-label="Main">
+      <a href="index.html">Home</a>
+      <a href="chatbot.html">Coach</a>
+      <a class="sp-switch" data-cq-back href="focused.html">Back to lessons</a>
+    </nav>
+  </header>
+
+  <main class="sp-main cq-main">
+    <div class="cq-layout">
+      <section class="cq-card" aria-label="Chat quiz">
+        <div class="cq-head">
+          <div>
+            <span class="cq-kicker" id="cqKicker">Chat quiz</span>
+            <h1 id="cqTitle">Lesson</h1>
+          </div>
+          <span class="cq-count" id="cqCount"></span>
+        </div>
+        <div class="cq-track" role="progressbar" aria-label="Lesson progress"><div class="cq-fill" id="cqFill"></div></div>
+
+        <div class="cq-thread" id="cqThread" aria-live="polite"></div>
+
+        <form class="cq-compose" id="cqForm">
+          <textarea id="cqInput" rows="1" placeholder="Loading…" aria-label="Your reply" disabled></textarea>
+          <button type="button" class="cq-ask" id="cqAsk" disabled>Ask assistant</button>
+          <button type="submit" id="cqSend" aria-label="Send" disabled>
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+          </button>
+        </form>
+      </section>
+
+      <aside class="cq-side">
+        <div class="side-card">
+          <h3>Your bonsai</h3>
+          <div class="cq-tree" id="cqTree"></div>
+          <p id="cqTreeNote"></p>
+        </div>
+
+        <div class="side-card">
+          <h3>How it works</h3>
+          <ul class="how-list">
+            <li><span class="tint t-mint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></span>Reply to each question in your own words.</li>
+            <li><span class="tint t-peach"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg></span><span>Miss one and you get notes. It comes back at the end of the section until you get it right.</span></li>
+            <li><span class="tint t-sky"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span><span id="cqHelpTip">Stuck? Type a question or select <strong>Ask assistant</strong> for help before you answer.</span></li>
+            <li><span class="tint t-lav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" y1="5" x2="19" y2="19"></line></svg></span><span>Type <strong>skip</strong> to see the answer and move on.</span></li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script src="script.js?v=topic-lessons-1"></script>
+  <script src="chat-core.js"></script>
+  <script src="ui.js?v=topic-chat-1"></script>
+  <script src="bonsai.js?v=topic-chat-1"></script>
+  <script src="learning-catalog.js?v=lesson-path-2"></script>
+  <script src="chat-quiz.js?v=topic-chat-2"></script>
+</body>
+</html>
