@@ -4,6 +4,8 @@
 
 > Grow every part of yourself: mind, body, craft and spirit. Learn what actually works, practice it daily, measure your progress, and share the wins.
 
+**Live demo:** [grove-gh85.onrender.com](https://grove-gh85.onrender.com) (free hosting: the first visit after a quiet spell can take about a minute to wake up)
+
 ---
 
 ## 📋 Table of Contents
@@ -346,7 +348,7 @@ assessment_queue
 |---|---|---|
 | `OPENAI_API_KEY` | `.env` | OpenAI key (primary chatbot model) |
 | `GEMINI_API_KEY` | `.env` | Google Gemini key (fallback chatbot model) |
-| `OPENAI_MODEL` / `GEMINI_MODEL` | `.env` | Optional model overrides (`gpt-4o-mini`, `gemini-2.5-flash`) |
+| `OPENAI_MODEL` / `GEMINI_MODEL` | `.env` | Optional model overrides (`gpt-4o-mini`; Gemini takes a comma-separated fallback list, default `gemini-3.5-flash,gemini-3.1-flash-lite`) |
 | `DATABASE_URL` | Process environment | Optional SQLAlchemy URL; defaults to `app/backend/chatbot.db` |
 | `COGNITO_REGION` / `COGNITO_USER_POOL_ID` / `COGNITO_CLIENT_ID` | `.env` | Your AWS Cognito pool and app client (served to the browser via `/auth/config`) |
 | `COGNITO_DOMAIN` / `COGNITO_REDIRECT_URI` | `.env` | Optional Cognito hosted UI settings (for federated login) |
