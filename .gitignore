@@ -48,8 +48,9 @@ Assignemnts/
 assignments/
 
 
-# Local Claude Code / agent settings
-.claude/
+# Local Claude Code / agent settings (project skills are shared)
+.claude/*
+!.claude/skills/
 
 # Brand assets are source files, not media dumps
 !app/frontend/assets/
