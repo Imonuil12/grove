@@ -29,7 +29,8 @@ if OPENAI_BASE_URL and not OPENAI_KEY:
     OPENAI_KEY = "not-needed"
 
 OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
-GEMINI_MODEL = os.getenv("GEMINI_MODEL", "gemini-2.5-flash")
+# Tried in order: if Google is overloaded (503) or retires a model (404), the next one answers.
+GEMINI_MODELS = [m.strip() for m in os.getenv("GEMINI_MODEL", "gemini-3.5-flash,gemini-3.1-flash-lite").split(",") if m.strip()]
 MAX_OUTPUT_TOKENS = int(os.getenv("CHAT_MAX_OUTPUT_TOKENS", "900"))
 TEMPERATURE = 0.6
 REQUEST_TIMEOUT = 45
@@ -99,13 +100,14 @@ def generate(system: str, messages: List[dict]) -> Optional[str]:
 
     client = _gemini()
     if client:
-        try:
-            contents, config = _gemini_request(system, messages)
-            response = client.models.generate_content(model=GEMINI_MODEL, contents=contents, config=config)
-            if response.text and response.text.strip():
-                return response.text.strip()
-        except Exception as e:
-            print(f"[llm] Gemini call failed: {e}")
+        contents, config = _gemini_request(system, messages)
+        for model in GEMINI_MODELS:
+            try:
+                response = client.models.generate_content(model=model, contents=contents, config=config)
+                if response.text and response.text.strip():
+                    return response.text.strip()
+            except Exception as e:
+                print(f"[llm] Gemini call failed ({model}): {e}")
 
     return None
 
@@ -143,10 +145,17 @@ def stream(system: str, messages: List[dict]) -> Iterator[str]:
 
     client = _gemini()
     if client:
-        try:
-            contents, config = _gemini_request(system, messages)
-            for chunk in client.models.generate_content_stream(model=GEMINI_MODEL, contents=contents, config=config):
-                if chunk.text:
-                    yield chunk.text
-        except Exception as e:
-            print(f"[llm] Gemini stream failed: {e}")
+        contents, config = _gemini_request(system, messages)
+        for model in GEMINI_MODELS:
+            sent_any = False
+            try:
+                for chunk in client.models.generate_content_stream(model=model, contents=contents, config=config):
+                    if chunk.text:
+                        sent_any = True
+                        yield chunk.text
+                if sent_any:
+                    return
+            except Exception as e:
+                print(f"[llm] Gemini stream failed ({model}): {e}")
+                if sent_any:
+                    return

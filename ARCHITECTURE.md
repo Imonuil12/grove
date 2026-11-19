@@ -211,7 +211,7 @@ Output Response Payload (Returned to Frontend UI with optional Safety Alert Bann
 ```
 
 ### Key Engine Features
-- **LLM layer (`llm.py`)**: OpenAI (`gpt-4o-mini`, override with `OPENAI_MODEL`) first, Gemini (`gemini-2.5-flash` via `google-genai`, override with `GEMINI_MODEL`) second, both with streaming and real multi-turn messages. With no working provider, `rule_based_response()` answers offline.
+- **LLM layer (`llm.py`)**: OpenAI (`gpt-4o-mini`, override with `OPENAI_MODEL`) first, Gemini (`gemini-3.5-flash`, falling back to `gemini-3.1-flash-lite`, via `google-genai`; override with `GEMINI_MODEL`) second, both with streaming and real multi-turn messages. With no working provider, `rule_based_response()` answers offline.
 - **Personalized prompt (`chat_prompt.py`)**: Built from a learner snapshot (`build_learner_snapshot` in `main.py`): archetype + experience level, intake summary, per-unit progress, struggling concepts and missed quiz questions, the page the learner is on, and the drug's curriculum as grounding. The model appends follow-up suggestions after a `<<<FOLLOWUPS>>>` marker that the server strips before streaming.
 - **Learning actions**: `suggest_actions()` links answers to the matching lesson, the learning path, or the intake form.
 - **Learning styles**: each archetype is a required answer shape with a word budget (`ARCHETYPE_STYLES` in `chat_prompt.py`), so the four styles look clearly different. Chat clients don't send an archetype; the server always uses the saved one.
