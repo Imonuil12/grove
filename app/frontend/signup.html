@@ -1,46 +1,62 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Create your account · Grove</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <meta charset="UTF-8">
-  <title>Signup - Grove</title>
-  <link rel="stylesheet" href="style.css?v=grove-1">
-  <!-- AWS Cognito SDK -->
-  <script src="https://unpkg.com/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+  <link rel="stylesheet" href="app.css?v=m1">
+  <script>try{const t=localStorage.getItem("grove:theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+  <!-- Only used when the server is configured for AWS Cognito -->
+  <script src="https://unpkg.com/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js" defer></script>
 </head>
+<body class="auth">
+  <main class="auth-card card">
+    <a class="brand" href="index.html"><img src="assets/grove-mark.svg" alt=""> Grove</a>
+    <h1 style="font-size:26px">Start growing</h1>
+    <p class="muted">Free, private by default, and built on research.</p>
+    <form id="form" novalidate>
+      <div class="field"><label for="email">Email</label>
+        <input class="input" id="email" type="email" autocomplete="email" required></div>
+      <div class="field"><label for="password">Password</label>
+        <input class="input" id="password" type="password" autocomplete="new-password" minlength="8" required>
+        <span class="small muted">At least 8 characters.</span></div>
+      <p class="form-error" id="error" role="alert"></p>
+      <button class="btn btn-primary w-full" type="submit" id="submit">Create account</button>
+    </form>
+    <p style="margin:18px 0 0">Already have an account? <a href="login.html" id="loginLink">Sign in</a></p>
+  </main>
+  <script type="module">
+    import { safeNext } from "./core.js";
+    import { needsEmailConfirmation, signUp } from "./auth/authService.js";
 
-<body class="auth-body">
+    const next = safeNext(new URLSearchParams(location.search).get("next"));
+    document.getElementById("loginLink").href = `login.html?next=${encodeURIComponent(next)}`;
+    const error = document.getElementById("error");
 
-<div class="auth-card">
-  <h2>Signup</h2>
-  <input id="email" placeholder="Email" type="email">
-  <input id="password" type="password" placeholder="Password (at least 8 characters)" autocomplete="new-password">
-  <button class="btn-primary" onclick="signup()">Signup</button>
-  <p>Already have an account? <a href="login.html">Login</a></p>
-</div>
-
-<script type="module">
-import { signUp, needsEmailConfirmation } from "./auth/authService.js";
-window.signup = async function () {
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-
-  try {
-    await signUp(email, password);
-    if (!needsEmailConfirmation()) {
-      window.location.href = "path.html";
-      return;
-    }
-    // Store email so confirm.html can pre-fill it
-    sessionStorage.setItem("pendingEmail", email);
-    alert("Account created! Please check your email for a verification code.");
-    window.location.href = "confirm.html";
-  } catch (err) {
-    console.error(err);
-    alert(err.message);
-  }
-};
-</script>
-
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+      if (!email) { error.textContent = "Enter your email."; return; }
+      if (password.length < 8) { error.textContent = "Use a password with at least 8 characters."; return; }
+      const button = document.getElementById("submit");
+      button.disabled = true;
+      error.textContent = "";
+      try {
+        sessionStorage.removeItem("guestToken");
+        await signUp(email, password);
+        if (needsEmailConfirmation()) {
+          sessionStorage.setItem("pendingEmail", email);
+          location.href = "confirm.html";
+        } else {
+          location.href = next;
+        }
+      } catch (err) {
+        error.textContent = err.message || "Couldn't create the account. Please try again.";
+        button.disabled = false;
+      }
+    });
+  </script>
 </body>
 </html>

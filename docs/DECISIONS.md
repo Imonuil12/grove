@@ -2,12 +2,23 @@
 
 Newest first. Each entry: date, decision, why, and what it affects. Reverse a decision with a new entry, don't edit old ones.
 
+## 2026-11-18: Fresh schema baseline; tracker tables ship with their tracker
+- **Decision:** The old medication migrations were replaced by one Grove baseline (`g001`). Existing databases are
+  converted once: accounts and passwords are kept, all medication tables are dropped. Habits, Books, Training and
+  Feed tables are added in their own milestones instead of up front.
+- **Why:** Designing tables before their feature is built leads to churn; one migration per feature keeps history clear.
+
+## 2026-11-18: Upcoming trackers ship as research previews
+- **Decision:** Until a tracker is built, its page shows what's coming, its evidence, and a button that asks the coach
+  for a plan. No fake data.
+- **Why:** Every nav item works on day one, and the demo stays honest about what exists.
+
 ## 2026-11-18: Product redesign around Habits, Books, Training
 - **Decision:** Remove the medication-education product entirely. Grove is three trackers (Habits, Books,
   Training) plus a Coach and a Feed, as described in [VISION.md](VISION.md).
 - **Why:** The agenda is habit development and whole-person growth, not medication education.
-- **Affects:** All pages, the curriculum and drug tables, the chat prompt, and the lesson engine
-  (which is reused for book recall questions).
+- **Affects:** All pages, the curriculum and drug tables, the chat prompt, and the old lesson engine
+  (removed; Books builds its own recall questions).
 
 ## 2026-11-18: Everything we build is research-backed
 - **Decision:** Every user-facing mechanic links to an evidence ID, or is labeled a product choice.

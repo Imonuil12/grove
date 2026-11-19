@@ -12,7 +12,7 @@ People start books and stall, and forget most of what they read.
 | Reading goal per book (finish by a date → pages per day) | HAB-2 |
 | Log reading sessions (pages or minutes); counts toward a Reading habit automatically | MON-1 |
 | Notes and thoughts per chapter | product choice |
-| Recall questions generated from the user's own notes, reusing the adaptive quiz engine | LRN-1, LRN-3 |
+| Recall questions generated from the user's own notes | LRN-1, LRN-3 |
 | Questions come back on a spaced schedule (1, 3, 7, 21 days) | LRN-2 |
 | "Finished" card: rating, key takeaway, shareable to the feed | MON-1, SOC-1 |
 

@@ -1,51 +1,43 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirm your email · Grove</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-  <meta charset="UTF-8">
-  <title>Confirm Account - Grove</title>
-  <link rel="stylesheet" href="style.css?v=grove-1">
-  <!-- AWS Cognito SDK -->
-  <script src="https://unpkg.com/amazon-cognito-identity-js@6/dist/amazon-cognito-identity.min.js"></script>
+  <link rel="stylesheet" href="app.css?v=m1">
+  <!-- Only used when the server is configured for AWS Cognito -->
+  <script src="https://unpkg.com/amazon-cognito-identity-js@6.3.12/dist/amazon-cognito-identity.min.js" defer></script>
 </head>
-
-<body class="auth-body">
-
-<div class="auth-card">
-  <h2>Verify Your Email</h2>
-  <p style="color:#6b7280; font-size:14px; margin-top:0;">Enter the verification code sent to your email.</p>
-  <input id="email" placeholder="Email" type="email">
-  <input id="code" placeholder="Verification Code" type="text">
-  <button class="btn-primary" onclick="confirmAccount()">Confirm</button>
-  <p style="margin-top:12px;"><a href="login.html" style="color:#3f9566; font-size:14px;">Back to Login</a></p>
-</div>
-
-<script type="module">
-import { confirmSignup } from "./auth/authService.js";
-
-// Auto-fill email if redirected from signup
-const pending = sessionStorage.getItem("pendingEmail");
-if (pending) document.getElementById("email").value = pending;
-
-window.confirmAccount = async function () {
-  const email = document.getElementById("email").value.trim();
-  const code = document.getElementById("code").value.trim();
-
-  if (!email || !code) {
-    alert("Please enter your email and the code.");
-    return;
-  }
-
-  try {
-    await confirmSignup(email, code);
-    sessionStorage.removeItem("pendingEmail");
-    alert("Account confirmed! You can now log in.");
-    window.location.href = "login.html";
-  } catch (err) {
-    alert(err.message || "Confirmation failed. Please try again.");
-  }
-};
-</script>
-
+<body class="auth">
+  <main class="auth-card card">
+    <a class="brand" href="index.html"><img src="assets/grove-mark.svg" alt=""> Grove</a>
+    <h1 style="font-size:26px">Check your email</h1>
+    <p class="muted">Enter the verification code we sent you.</p>
+    <form id="form" novalidate>
+      <div class="field"><label for="email">Email</label><input class="input" id="email" type="email" autocomplete="email"></div>
+      <div class="field"><label for="code">Verification code</label><input class="input" id="code" inputmode="numeric" autocomplete="one-time-code"></div>
+      <p class="form-error" id="error" role="alert"></p>
+      <button class="btn btn-primary w-full" type="submit">Confirm</button>
+    </form>
+    <p style="margin:18px 0 0"><a href="login.html">Back to sign in</a></p>
+  </main>
+  <script type="module">
+    import { confirmSignup } from "./auth/authService.js";
+    const pending = sessionStorage.getItem("pendingEmail");
+    if (pending) document.getElementById("email").value = pending;
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value.trim();
+      const code = document.getElementById("code").value.trim();
+      const error = document.getElementById("error");
+      if (!email || !code) { error.textContent = "Enter your email and the code."; return; }
+      try {
+        await confirmSignup(email, code);
+        sessionStorage.removeItem("pendingEmail");
+        location.href = "login.html";
+      } catch (err) { error.textContent = err.message || "Confirmation failed. Please try again."; }
+    });
+  </script>
 </body>
 </html>

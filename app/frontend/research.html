@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The research · Grove</title>
+  <meta name="description" content="The studies and guidelines behind every Grove feature, with full citations.">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="app.css?v=m1">
+  <script>try{const t=localStorage.getItem("grove:theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body>
+  <header class="site-nav">
+    <a class="brand" href="index.html"><img src="assets/grove-mark.svg" alt=""> Grove</a>
+    <nav><a class="btn btn-primary" id="cta" href="signup.html">Get started</a></nav>
+  </header>
+  <main class="section" style="padding-top:12px">
+    <div class="section-head">
+      <span class="eyebrow">The research</span>
+      <h1>Every feature is backed by evidence</h1>
+      <p class="muted">Grove is built on studies and guidelines, not trends. Each one has an ID that you'll see next to
+        features and in coach answers. Grades show how strong the evidence is.</p>
+      <div class="chips" style="margin-top:12px">
+        <span class="badge"><span class="grade grade-A">A</span> Meta-analysis, systematic review or official guideline</span>
+        <span class="badge"><span class="grade grade-B">B</span> Randomized trial or strong single study</span>
+        <span class="badge"><span class="grade grade-C">C</span> Practitioner program, used as design input only</span>
+      </div>
+    </div>
+    <div id="list" class="evidence"><p class="muted">Loading…</p></div>
+    <p class="small muted" style="margin-top:24px">Grove is not medical advice and doesn't diagnose or treat any condition.
+      Talk to a qualified professional about injuries, medical conditions, or nutrition plans.</p>
+  </main>
+  <script type="module">
+    import { esc, isSignedIn, loadEvidence } from "./core.js";
+    if (isSignedIn()) { const cta = document.getElementById("cta"); cta.href = "today.html"; cta.textContent = "Open Grove"; }
+    const entries = await loadEvidence();
+    const groups = {};
+    entries.forEach((e) => (groups[e.category] ||= []).push(e));
+    document.getElementById("list").innerHTML = Object.entries(groups).map(([category, list]) => `
+      <h2 style="margin-top:18px">${esc(category)}</h2>
+      ${list.map((e) => `
+        <article class="card" id="${esc(e.id)}">
+          <div class="meta"><span class="cite">${esc(e.id)}</span><span class="grade grade-${e.grade}">Grade ${e.grade}</span></div>
+          <h3>${esc(e.title)}</h3>
+          ${e.finding ? `<p>${esc(e.finding)}</p>` : ""}
+          <p class="small"><strong>In Grove:</strong> ${esc(e.use)}</p>
+          <p class="citation">${esc(e.citation)}</p>
+        </article>`).join("")}`).join("");
+    if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
+  </script>
+</body>
+</html>

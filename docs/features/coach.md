@@ -1,6 +1,6 @@
 # Coach
 
-**Status:** ⬜ Milestone 5 (prompt rewritten in Milestone 1) · **BCT-1:** feedback on behavior, problem solving, action planning
+**Status:** 🚧 research-grounded chat live (Milestone 1); data-aware coaching and weekly review in Milestone 5 · **BCT-1:** feedback on behavior, problem solving, action planning
 
 ## Problem
 Generic chatbots don't know what you actually did this week, and generic advice isn't research-based.
