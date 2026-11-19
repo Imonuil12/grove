@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Today · Grove</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="app.css?v=m1">
+  <script>try{const t=localStorage.getItem("grove:theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body data-page="today">
+  <main id="page" class="page"></main>
+  <script type="module">
+    import { displayName, esc, icon, isGuest } from "./core.js";
+    import { mountShell } from "./shell.js";
+
+    if (mountShell()) {
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+      const date = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
+      const card = (key, tone, title, emptyTitle, emptyText, cta, ids) => `
+        <section class="card">
+          <h2><span class="card-icon tone-${tone}">${icon(key)}</span> ${title}</h2>
+          <div class="empty"><strong>${emptyTitle}</strong>${emptyText}</div>
+          <div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap">
+            <a class="btn btn-ghost" href="${key}.html">${cta} ${icon("arrow", 16)}</a>
+            <span class="small muted">Backed by ${ids.map((id) => `<a class="cite" href="research.html#${id}">${id}</a>`).join(" ")}</span>
+          </div>
+        </section>`;
+
+      document.getElementById("page").innerHTML = `
+        <div class="page-head hello">
+          <div>
+            <span class="date-chip">${esc(date)}</span>
+            <h1>${greeting}, ${esc(displayName())}.</h1>
+            <p>Here's your day. Small, specific actions, done consistently, are what change you.</p>
+          </div>
+        </div>
+        ${isGuest() ? `<div class="card" style="margin-bottom:16px;background:var(--sun-soft);border-color:transparent">
+          <strong>You're exploring as a guest.</strong> Nothing is saved after you close this tab.
+          <a href="signup.html">Create a free account</a> to keep your progress.</div>` : ""}
+        <section class="card nudge" style="margin-bottom:16px">
+          <span class="card-icon" style="background:rgba(255,255,255,.1);color:#fff">${icon("coach")}</span>
+          <div style="flex:1">
+            <h2 style="color:#fff">Your coach</h2>
+            <p>Not sure where to start? Tell the coach one thing you want to get better at, and it will help you
+              turn it into a tiny, specific plan. Plans written as “After I…, I will…” clearly improve follow-through
+              <a class="cite" href="research.html#HAB-2" style="background:rgba(255,255,255,.12);color:#bfe3cc">HAB-2</a>.</p>
+            <a class="btn btn-ghost" href="coach.html?ask=${encodeURIComponent("Help me pick one habit to start this week.")}">Plan my first step ${icon("arrow", 16)}</a>
+          </div>
+        </section>
+        <div class="grid grid-3">
+          ${card("habits", "leaf", "Today's habits", "No habits yet", "Habit tracking arrives in the next update.", "See Habits", ["HAB-1", "HAB-2"])}
+          ${card("books", "sky", "Reading", "No book in progress", "Book tracking and recall questions are coming soon.", "See Books", ["LRN-1"])}
+          ${card("training", "sun", "This week's training", "0 of 150 active minutes", "Workout and run logging are coming soon.", "See Training", ["FIT-1"])}
+        </div>`;
+    }
+  </script>
+</body>
+</html>

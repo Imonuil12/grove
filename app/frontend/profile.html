@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Profile · Grove</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="app.css?v=m1">
+  <script>try{const t=localStorage.getItem("grove:theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body data-page="profile">
+  <main id="page" class="page"></main>
+  <script type="module">
+    import { accountEmail, displayName, esc, icon, isGuest, signOut } from "./core.js";
+    import { mountShell, setTheme } from "./shell.js";
+
+    if (mountShell()) {
+      const read = (key, fallback) => { try { return localStorage.getItem(key) || fallback; } catch (e) { return fallback; } };
+      const mode = read("grove:mode", "focused");
+      const theme = read("grove:theme", "system");
+      const option = (name, value, current, title, text) => `
+        <label class="card" style="display:flex;gap:12px;cursor:pointer;padding:14px;box-shadow:none">
+          <input type="radio" name="${name}" value="${value}" ${value === current ? "checked" : ""} style="margin-top:4px">
+          <span><strong>${title}</strong><br><span class="small muted">${text}</span></span>
+        </label>`;
+
+      document.getElementById("page").innerHTML = `
+        <div class="page-head">
+          <h1>${esc(displayName())}</h1>
+          <p>${isGuest() ? "Guest session. Nothing is saved after you close this tab." : esc(accountEmail() || "")}</p>
+        </div>
+        <div class="grid grid-2">
+          <section class="card">
+            <h2><span class="card-icon tone-leaf">${icon("habits")}</span> How progress looks</h2>
+            <p class="muted small">Both views use the same data. Rewards like XP help some people and not others
+              <a class="cite" href="research.html#GAM-1">GAM-1</a>, so you choose.</p>
+            <div class="grid">
+              ${option("mode", "focused", mode, "Focused", "A calm bonsai that grows with your habits.")}
+              ${option("mode", "game", mode, "Game", "XP, levels and companions that cheer you on.")}
+            </div>
+          </section>
+          <section class="card">
+            <h2><span class="card-icon tone-sky">${icon("moon")}</span> Appearance</h2>
+            <div class="grid">
+              ${option("theme", "system", theme, "Match my device", "Light or dark, following your system setting.")}
+              ${option("theme", "light", theme, "Light", "")}
+              ${option("theme", "dark", theme, "Dark", "")}
+            </div>
+          </section>
+        </div>
+        <section class="card" style="margin-top:16px">
+          <h2>Account</h2>
+          ${isGuest()
+            ? `<p class="muted">Create an account to keep your habits, books and coach conversations.</p>
+               <a class="btn btn-primary" href="signup.html">Create a free account</a>`
+            : `<p class="muted">Your coach conversations are encrypted at rest.</p>`}
+          <button class="btn btn-ghost" type="button" id="out" style="margin-left:4px">${icon("logout", 16)} Sign out</button>
+        </section>`;
+
+      document.querySelectorAll('input[name="mode"]').forEach((r) => r.addEventListener("change", () => {
+        try { localStorage.setItem("grove:mode", r.value); } catch (e) { /* storage blocked */ }
+      }));
+      document.querySelectorAll('input[name="theme"]').forEach((r) => r.addEventListener("change", () => setTheme(r.value)));
+      document.getElementById("out").addEventListener("click", signOut);
+    }
+  </script>
+</body>
+</html>

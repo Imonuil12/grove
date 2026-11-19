@@ -21,9 +21,6 @@ import models as m
 from database import Base, SessionLocal
 
 RETIRED_ACCOUNTS = {"demo.patient@example.com"}
-# Tables that point at a user by email/identity string instead of users.id.
-IDENTITY_COLUMNS = [("chat_messages", "session_id"), ("conversations", "username"), ("sessions", "session_id"),
-                    ("intakes", "session_id"), ("mastery_records", "session_id"), ("assessment_queue", "session_id")]
 
 
 def is_fake(identity: str) -> bool:
@@ -58,10 +55,6 @@ def delete_user(db, identity: str) -> int:
         for name in reversed(order):  # children first
             total += db.execute(delete(tables[name]).where(owned[name])).rowcount or 0
 
-    for table_name, column in IDENTITY_COLUMNS:
-        if table_name in tables:
-            table = tables[table_name]
-            total += db.execute(delete(table).where(table.c[column] == identity)).rowcount or 0
     return total
 
 
@@ -70,14 +63,11 @@ def main(argv):
     args = [a for a in argv if not a.startswith("--")]
     with SessionLocal() as db:
         every = [u.email for u in db.query(m.User).order_by(m.User.id)]
-        conv_only = {c for (c,) in db.query(m.Conversation.username).distinct()} - set(every)
         if "--list" in argv:
             for email in every:
                 print(("FAKE  " if is_fake(email) else "      ") + email)
-            for name in sorted(conv_only):
-                print(("FAKE  " if is_fake(name) else "      ") + name + "  (chats only)")
             return 0
-        targets = [e for e in every + sorted(conv_only) if is_fake(e)] if "--fake" in argv else args
+        targets = [e for e in every if is_fake(e)] if "--fake" in argv else args
         if not targets:
             print("Nothing to delete.")
             return 0

@@ -6,15 +6,15 @@ Every milestone ships to the live site on its own. Status: ✅ done · 🚧 in p
 - Remove company ownership, rebrand to Grove, built-in accounts, free AI provider, Postgres support
 - Live at https://grove-gh85.onrender.com (Render + Neon, kept awake by a scheduled ping)
 
-## 🚧 Milestone 1: Foundation
+## ✅ Milestone 1: Foundation (2026-11-18)
 Goal: the medical product is gone and the new app shell is in place.
-- [ ] Remove medication content: drug lessons, safety warnings, drug and condition tables, medical intake
-- [ ] New navigation: Today · Habits · Books · Training · Coach · Feed · Profile
-- [ ] Today page (empty states that point to each tracker)
-- [ ] New database tables for habits, check-ins, books, reading sessions, notes, workouts, body metrics
-- [ ] Coach prompt rewritten as a general growth coach (full rewrite in Milestone 5)
-- [ ] Landing page and About rewritten for the new agenda, with a "The research" section
-- **Done when:** no medical wording anywhere, every nav item opens a real page, tests pass, deployed.
+- [x] Remove medication content: drug lessons, safety warnings, drug and condition tables, medical intake
+- [x] New navigation: Today · Habits · Books · Training · Coach · Feed · Profile (sidebar on desktop, tab bar on phones)
+- [x] Today page with empty states that point to each tracker
+- [x] Database reset to a Grove baseline (accounts kept); tracker tables arrive with each tracker (see DECISIONS)
+- [x] Coach rebuilt: research-grounded prompt, cited sources, follow-up suggestions, research-cited offline answers
+- [x] New landing page and a public Research page generated from the evidence library
+- [x] Upcoming trackers show what's coming, the research behind it, and a coach shortcut
 
 ## ⬜ Milestone 2: Habits + reminders → [features/habits.md](features/habits.md)
 ## ⬜ Milestone 3: Books → [features/books.md](features/books.md)

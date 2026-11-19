@@ -1,0 +1,194 @@
+{
+  "source": "docs/research/EVIDENCE.md",
+  "entries": [
+    {
+      "id": "HAB-1",
+      "title": "Habits take time to become automatic, and one missed day doesn't break them",
+      "grade": "B",
+      "category": "Habits and behavior change",
+      "citation": "Lally, P., van Jaarsveld, C. H. M., Potts, H. W. W., & Wardle, J. (2010). How are habits formed: Modelling habit formation in the real world. European Journal of Social Psychology, 40(6), 998–1009.",
+      "finding": "Automaticity rose along a curve and leveled off after a median of 66 days (range 18–254). Missing one opportunity did not materially affect habit formation.",
+      "use": "the 66-day growth arc; \"never miss twice\" instead of a streak that resets to zero."
+    },
+    {
+      "id": "HAB-2",
+      "title": "\"If-then\" plans improve follow-through",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Gollwitzer, P. M., & Sheeran, P. (2006). Implementation intentions and goal achievement: A meta-analysis of effects and processes. Advances in Experimental Social Psychology, 38, 69–119.",
+      "finding": "Across 94 independent tests, forming implementation intentions (\"when situation X, I will do Y\") had a medium-to-large effect on goal attainment (d = .65).",
+      "use": "every habit is written as \"After I [cue], I will [action] at [place/time].\""
+    },
+    {
+      "id": "HAB-3",
+      "title": "Habits are triggered by stable context cues",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Wood, W., & Neal, D. T. (2007). A new look at habits and the habit–goal interface. Psychological Review, 114(4), 843–863.",
+      "finding": "Habits are cued by context (time, place, preceding action), not by goals or intentions alone.",
+      "use": "asking for a cue and a place, and reminding at that time."
+    },
+    {
+      "id": "HAB-4",
+      "title": "Start tiny and anchor to an existing routine",
+      "grade": "C",
+      "category": "Habits and behavior change",
+      "citation": "Fogg, B. J. (2019). Tiny Habits: The Small Changes That Change Everything. Houghton Mifflin Harcourt.",
+      "finding": "",
+      "use": "design input for \"start tiny, grow later\" and anchoring. Not a marketing claim on its own; the anchoring part is supported by HAB-2 and HAB-3."
+    },
+    {
+      "id": "MON-1",
+      "title": "Tracking progress helps people reach goals, more so when recorded and shared",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Harkin, B., Webb, T. L., Chang, B. P. I., Prestwich, A., Conner, M., Kellar, I., Benn, Y., & Sheeran, P. (2016). Does monitoring goal progress promote goal attainment? A meta-analysis of the experimental evidence. Psychological Bulletin, 142(2), 198–229.",
+      "finding": "Prompting people to monitor progress improved goal attainment. Effects were larger when progress was physically recorded and when it was reported to others or made public.",
+      "use": "logging in every tracker; the feed and weekly review."
+    },
+    {
+      "id": "REM-1",
+      "title": "Reminders and prompts help health behaviors",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Fry, J. P., & Neff, R. A. (2009). Periodic prompts and reminders in health promotion and health behavior interventions: Systematic review. Journal of Medical Internet Research, 11(2), e16.",
+      "finding": "Most included studies found that periodic prompts had a positive effect on behavior.",
+      "use": "reminders at the time the user chose in their plan."
+    },
+    {
+      "id": "BCT-1",
+      "title": "A shared language for behavior change techniques",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Michie, S., Richardson, M., Johnston, M., Abraham, C., Francis, J., Hardeman, W., Eccles, M. P., Cane, J., & Wood, C. E. (2013). The behavior change technique taxonomy (v1) of 93 hierarchically clustered techniques. Annals of Behavioral Medicine, 46(1), 81–95.",
+      "finding": "",
+      "use": "tagging each Grove mechanic with the technique it implements (goal setting, action planning, self-monitoring, prompts/cues, social support, feedback on behavior)."
+    },
+    {
+      "id": "MOT-1",
+      "title": "Autonomy, competence and relatedness drive lasting motivation",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Ryan, R. M., & Deci, E. L. (2000). Self-determination theory and the facilitation of intrinsic motivation, social development, and well-being. American Psychologist, 55(1), 68–78.",
+      "finding": "",
+      "use": "coach tone (supportive, never shaming), letting users choose their goals and display mode, showing competence through progress, the feed for relatedness."
+    },
+    {
+      "id": "GAM-1",
+      "title": "Gamification works for some people in some contexts",
+      "grade": "A",
+      "category": "Habits and behavior change",
+      "citation": "Hamari, J., Koivisto, J., & Sarsa, H. (2014). Does gamification work? A literature review of empirical studies on gamification. Proceedings of the 47th Hawaii International Conference on System Sciences, 3025–3034.",
+      "finding": "Mostly positive effects, but dependent on context and the user.",
+      "use": "Game mode is optional, not the default for everyone."
+    },
+    {
+      "id": "LRN-1",
+      "title": "Testing yourself beats rereading",
+      "grade": "B",
+      "category": "Learning and reading",
+      "citation": "Roediger, H. L., & Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention. Psychological Science, 17(3), 249–255.",
+      "finding": "Retrieval practice produced better retention on delayed tests than restudying.",
+      "use": "recall questions generated from the user's own book notes."
+    },
+    {
+      "id": "LRN-2",
+      "title": "Spacing out review improves long-term memory",
+      "grade": "A",
+      "category": "Learning and reading",
+      "citation": "Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D. (2006). Distributed practice in verbal recall tasks: A review and quantitative synthesis. Psychological Bulletin, 132(3), 354–380.",
+      "finding": "",
+      "use": "scheduling recall questions over days and weeks after a reading session."
+    },
+    {
+      "id": "LRN-3",
+      "title": "Practice testing and spaced practice are the most useful study techniques",
+      "grade": "A",
+      "category": "Learning and reading",
+      "citation": "Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., & Willingham, D. T. (2013). Improving students' learning with effective learning techniques. Psychological Science in the Public Interest, 14(1), 4–58.",
+      "finding": "Of ten common techniques, practice testing and distributed practice were rated high utility; highlighting and rereading were rated low.",
+      "use": "why Books asks questions instead of just storing highlights."
+    },
+    {
+      "id": "FIT-1",
+      "title": "How much activity adults need",
+      "grade": "A",
+      "category": "Physical activity and body",
+      "citation": "Bull, F. C., et al. (2020). World Health Organization 2020 guidelines on physical activity and sedentary behaviour. British Journal of Sports Medicine, 54(24), 1451–1462.",
+      "finding": "Adults: 150–300 minutes of moderate (or 75–150 vigorous) aerobic activity per week, plus muscle-strengthening activity on 2 or more days.",
+      "use": "the weekly activity ring and strength-day target."
+    },
+    {
+      "id": "FIT-2",
+      "title": "Progressive overload for strength",
+      "grade": "A",
+      "category": "Physical activity and body",
+      "citation": "American College of Sports Medicine. (2009). Progression models in resistance training for healthy adults. Medicine & Science in Sports & Exercise, 41(3), 687–708.",
+      "finding": "Gradually increase training stimulus; for novices, moderate loads for about 8–12 repetitions, and increase load when the target repetitions can be exceeded.",
+      "use": "\"time to add weight\" suggestions in Training."
+    },
+    {
+      "id": "FIT-3",
+      "title": "Protein intake for people who strength train",
+      "grade": "A",
+      "category": "Physical activity and body",
+      "citation": "Morton, R. W., et al. (2018). A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults. British Journal of Sports Medicine, 52(6), 376–384.",
+      "finding": "Benefits to muscle mass leveled off at about 1.6 g of protein per kg of body weight per day.",
+      "use": "the optional protein target. Not medical advice."
+    },
+    {
+      "id": "WT-1",
+      "title": "Daily weighing, viewed as a trend, supports weight management",
+      "grade": "B",
+      "category": "Physical activity and body",
+      "citation": "Steinberg, D. M., Bennett, G. G., Askew, S., & Tate, D. F. (2015). Weighing every day matters: Daily weighing improves weight loss and adoption of weight control behaviors. *Journal of the Academy of Nutrition and Dietetics, 115*(4), 511–518.",
+      "finding": "",
+      "use": "weight logging with a 7-day average trend line."
+    },
+    {
+      "id": "COG-1",
+      "title": "Aerobic exercise and the brain",
+      "grade": "B",
+      "category": "Physical activity and body",
+      "citation": "Erickson, K. I., et al. (2011). Exercise training increases size of hippocampus and improves memory. Proceedings of the National Academy of Sciences, 108(7), 3017–3022.",
+      "finding": "In older adults, a year of aerobic exercise increased hippocampal volume and improved memory compared with stretching.",
+      "use": "explaining how physical and cognitive growth connect. Word carefully: older adults, one trial."
+    },
+    {
+      "id": "RUN-1",
+      "title": "Couch to 5K",
+      "grade": "C",
+      "category": "Physical activity and body",
+      "citation": "NHS. Couch to 5K running plan (9 weeks, three runs per week, run/walk intervals).",
+      "finding": "",
+      "use": "structure for the beginner running plan. Widely used public program, not a trial."
+    },
+    {
+      "id": "SLP-1",
+      "title": "Adults need 7 or more hours of sleep",
+      "grade": "A",
+      "category": "Physical activity and body",
+      "citation": "Watson, N. F., et al. (2015). Recommended amount of sleep for a healthy adult: A joint consensus statement of the American Academy of Sleep Medicine and Sleep Research Society. Sleep, 38(6), 843–844.",
+      "finding": "",
+      "use": "the sleep habit template's default target."
+    },
+    {
+      "id": "MND-1",
+      "title": "Meditation programs and well-being",
+      "grade": "A",
+      "category": "Physical activity and body",
+      "citation": "Goyal, M., et al. (2014). Meditation programs for psychological stress and well-being: A systematic review and meta-analysis. JAMA Internal Medicine, 174(3), 357–368.",
+      "finding": "Moderate evidence that mindfulness meditation programs improve anxiety, depression and pain.",
+      "use": "the meditation habit template. Do not claim it treats any condition."
+    },
+    {
+      "id": "SOC-1",
+      "title": "Doing it with others helps people stick with it",
+      "grade": "B",
+      "category": "Social support",
+      "citation": "Wing, R. R., & Jeffery, R. W. (1999). Benefits of recruiting participants with friends and increasing social support for weight loss and maintenance. Journal of Consulting and Clinical Psychology, 67(1), 132–138.",
+      "finding": "People who joined with friends and received social support were more likely to complete the program and keep the weight off.",
+      "use": "followers, the feed, cheering on milestones."
+    }
+  ]
+}

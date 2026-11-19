@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Coach · Grove</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="app.css?v=m1">
+  <script>try{const t=localStorage.getItem("grove:theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+</head>
+<body data-page="coach">
+  <main id="page" class="coach">
+    <aside class="coach-list" aria-label="Conversations">
+      <button class="btn btn-primary w-full" type="button" id="newChat" style="margin-bottom:12px"></button>
+      <div id="convs"></div>
+    </aside>
+    <section class="coach-main">
+      <div class="coach-scroll" id="scroll"><div class="coach-thread" id="thread" aria-live="polite"></div></div>
+      <div class="coach-input">
+        <form id="form">
+          <label class="visually-hidden" for="input">Message the coach</label>
+          <textarea id="input" rows="1" maxlength="4000" placeholder="Ask about habits, reading, training, sleep…"></textarea>
+          <button class="btn btn-primary" type="submit" id="send"></button>
+        </form>
+      </div>
+    </section>
+  </main>
+  <script type="module">
+    import { api, esc, icon, loadEvidence, renderMarkdown } from "./core.js";
+    import { mountShell } from "./shell.js";
+
+    if (mountShell()) {
+      const $ = (id) => document.getElementById(id);
+      const thread = $("thread"), input = $("input"), form = $("form"), send = $("send");
+      $("newChat").innerHTML = `${icon("plus", 16)} New conversation`;
+      send.innerHTML = `${icon("send", 18)}<span class="visually-hidden">Send</span>`;
+      let conversationId = null, busy = false, controller = null;
+      let knownIds = new Set();
+      loadEvidence().then((entries) => { knownIds = new Set(entries.map((e) => e.id)); });
+
+      const STARTERS = [
+        "Help me pick one habit to start this week",
+        "How do I remember more of what I read?",
+        "Plan a simple week of workouts",
+        "How long does it take to form a habit?",
+      ];
+
+      function scrollDown() { $("scroll").scrollTop = $("scroll").scrollHeight; }
+
+      function welcome() {
+        thread.innerHTML = `
+          <div class="coach-welcome">
+            <span class="card-icon tone-leaf" style="margin:0 auto 12px;width:48px;height:48px">${icon("coach", 24)}</span>
+            <h1 style="font-size:26px">How can I help you grow?</h1>
+            <p class="muted">I help with habits, reading, training, sleep and focus, using methods that research supports.
+              When I use a study, I'll cite it so you can check it.</p>
+            <div class="chips">${STARTERS.map((s) => `<button class="chip" type="button">${esc(s)}</button>`).join("")}</div>
+          </div>`;
+        thread.querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => ask(b.textContent)));
+      }
+
+      function addUser(text) {
+        thread.querySelector(".coach-welcome")?.remove();
+        const el = document.createElement("div");
+        el.className = "msg msg-user";
+        el.textContent = text;
+        thread.appendChild(el);
+      }
+
+      function addBot(text = "", sources = [], suggestions = []) {
+        const el = document.createElement("div");
+        el.className = "msg msg-bot";
+        thread.appendChild(el);
+        fillBot(el, text, sources, suggestions);
+        return el;
+      }
+
+      function fillBot(el, text, sources = [], suggestions = []) {
+        el.innerHTML = text ? renderMarkdown(text, knownIds.size ? knownIds : null) : '<span class="typing"><i></i><i></i><i></i></span>';
+        if (sources.length) {
+          el.insertAdjacentHTML("beforeend", `<div class="msg-sources">Sources: ${sources.map((id) =>
+            `<a class="cite" href="research.html#${id}">${id}</a>`).join(" ")}</div>`);
+        }
+        if (suggestions.length) {
+          const chips = document.createElement("div");
+          chips.className = "chips";
+          chips.style.marginTop = "12px";
+          chips.innerHTML = suggestions.map((s) => `<button class="chip" type="button">${esc(s)}</button>`).join("");
+          chips.querySelectorAll(".chip").forEach((b) => b.addEventListener("click", () => ask(b.textContent)));
+          el.appendChild(chips);
+        }
+      }
+
+      async function loadList() {
+        const res = await api("/coach/conversations");
+        const rows = res.ok ? await res.json() : [];
+        $("convs").innerHTML = rows.length
+          ? rows.map((c) => `<button class="conv" type="button" data-id="${esc(c.id)}" ${c.id === conversationId ? 'aria-current="true"' : ""}>${esc(c.title)}</button>`).join("")
+          : '<p class="small muted" style="padding:6px 10px">Your conversations will appear here.</p>';
+        $("convs").querySelectorAll(".conv").forEach((b) => b.addEventListener("click", () => open(b.dataset.id)));
+      }
+
+      async function open(id) {
+        if (busy) return;
+        const res = await api(`/coach/conversations/${encodeURIComponent(id)}`);
+        if (!res.ok) return;
+        const data = await res.json();
+        conversationId = data.id;
+        thread.innerHTML = "";
+        data.messages.forEach((m) => m.role === "user" ? addUser(m.text) : addBot(m.text, citedIn(m.text)));
+        loadList();
+        scrollDown();
+      }
+
+      const citedIn = (text) => [...new Set((text.match(/\b[A-Z]{2,4}-\d+\b/g) || []).filter((id) => knownIds.has(id)))];
+
+      async function ask(text) {
+        text = text.trim();
+        if (!text || busy) return;
+        busy = true;
+        send.disabled = true;
+        input.value = "";
+        autosize();
+        thread.querySelectorAll(".msg-bot .chips").forEach((c) => c.remove());
+        addUser(text);
+        const bot = addBot();
+        scrollDown();
+        let shown = "";
+        controller = new AbortController();
+        try {
+          const res = await api("/coach/stream", { method: "POST", signal: controller.signal,
+            body: JSON.stringify({ message: text, conversation_id: conversationId, page: "coach" }) });
+          if (!res.ok) throw new Error((await res.json().catch(() => ({}))).detail || "The coach couldn't answer right now.");
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let buffer = "";
+          for (;;) {
+            const { value, done } = await reader.read();
+            if (done) break;
+            buffer += decoder.decode(value, { stream: true });
+            let nl;
+            while ((nl = buffer.indexOf("\n")) !== -1) {
+              const line = buffer.slice(0, nl).trim();
+              buffer = buffer.slice(nl + 1);
+              if (!line) continue;
+              const ev = JSON.parse(line);
+              if (ev.type === "meta") conversationId = ev.conversation_id;
+              else if (ev.type === "delta") { shown += ev.text; fillBot(bot, shown); scrollDown(); }
+              else if (ev.type === "done") { fillBot(bot, ev.response, ev.sources || [], ev.suggestions || []); loadList(); }
+            }
+          }
+        } catch (err) {
+          if (err.name !== "AbortError") fillBot(bot, shown || `Sorry, something went wrong: ${err.message}`);
+        } finally {
+          busy = false;
+          send.disabled = false;
+          scrollDown();
+          input.focus();
+        }
+      }
+
+      function autosize() { input.style.height = "auto"; input.style.height = Math.min(input.scrollHeight, 160) + "px"; input.style.overflowY = input.scrollHeight > 160 ? "auto" : "hidden"; }
+      input.addEventListener("input", autosize);
+      input.addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); ask(input.value); } });
+      form.addEventListener("submit", (e) => { e.preventDefault(); ask(input.value); });
+      $("newChat").addEventListener("click", () => { if (busy) controller?.abort(); conversationId = null; welcome(); loadList(); input.focus(); });
+
+      welcome();
+      loadList();
+      const preset = new URLSearchParams(location.search).get("ask");
+      if (preset) { history.replaceState(null, "", "coach.html"); loadEvidence().then(() => ask(preset.slice(0, 500))); }
+    }
+  </script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 # Today
 
-**Status:** 🚧 Milestone 1 · The home screen after sign-in.
+**Status:** ✅ shell in Milestone 1, real data in Milestones 2–4 · The home screen after sign-in.
 
 ## Purpose
 One place that answers "what should I do today?" so users never have to navigate to act.
