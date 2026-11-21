@@ -14,3 +14,4 @@ Live at https://grove-gh85.onrender.com. Solo portfolio project.
 - Never commit `.env` or secrets. Never push the old pre-Grove history.
 - Run tests: `cd app/backend && ../../venv/bin/python -m pytest -q`
 - Pushing to `main` deploys to Render automatically.
+- Commits are authored by Imonuil Suleimanov only: no `Co-Authored-By` trailers or AI attribution in commits or PRs.
